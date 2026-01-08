@@ -1,0 +1,193 @@
+<?xml version="1.0"?>
+<robot name="minimal_robot" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Robot dimensions -->
+  <xacro:property name="body_height" value="0.3"/>
+  <xacro:property name="body_radius" value="0.15"/>
+  <xacro:property name="body_mass" value="1.0"/>
+  <xacro:property name="floor_clearance" value="0.02"/>
+
+  <!-- Wheel dimensions -->
+  <xacro:property name="wheel_diameter" value="0.1"/>
+  <xacro:property name="wheel_radius" value="${wheel_diameter/2}"/>
+  <xacro:property name="wheel_width" value="0.03"/>
+  <xacro:property name="wheel_mass" value="0.1"/>
+
+  <!-- Wheel positioning -->
+  <xacro:property name="wheelbase_x" value="0.1"/>
+  <xacro:property name="wheelbase_y" value="0.125"/>
+
+  <material name="light_blue">
+    <color rgba="0.5 0.7 1.0 1"/>
+  </material>
+
+  <material name="black">
+    <color rgba="0.1 0.1 0.1 1"/>
+  </material>
+
+  <link name="base_footprint"/>
+
+  <joint name="base_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 ${floor_clearance + body_height/2}" rpy="0 0 0"/>
+  </joint>
+
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${body_height}" radius="${body_radius}"/>
+      </geometry>
+      <material name="light_blue"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${body_height}" radius="${body_radius}"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <mass value="${body_mass}"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="${body_mass*(3*body_radius*body_radius+body_height*body_height)/12}" ixy="0" ixz="0"
+               iyy="${body_mass*(3*body_radius*body_radius+body_height*body_height)/12}" iyz="0"
+               izz="${body_mass*body_radius*body_radius/2}"/>
+    </inertial>
+  </link>
+
+  <!-- Front Left Wheel -->
+  <joint name="wheel_front_left_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="wheel_front_left_link"/>
+    <origin xyz="${wheelbase_x} ${wheelbase_y} ${-(body_height/2 + floor_clearance - wheel_radius)}" rpy="${-pi/2} 0 0"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+  <link name="wheel_front_left_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${wheel_width}" radius="${wheel_radius}"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${wheel_width}" radius="${wheel_radius}"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="${wheel_mass*(3*wheel_radius*wheel_radius+wheel_width*wheel_width)/12}" ixy="0" ixz="0"
+               iyy="${wheel_mass*(3*wheel_radius*wheel_radius+wheel_width*wheel_width)/12}" iyz="0"
+               izz="${wheel_mass*wheel_radius*wheel_radius/2}"/>
+    </inertial>
+  </link>
+
+  <!-- Front Right Wheel -->
+  <joint name="wheel_front_right_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="wheel_front_right_link"/>
+    <origin xyz="${wheelbase_x} ${-wheelbase_y} ${-(body_height/2-floor_clearance)}" rpy="${-pi/2} 0 0"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+  <link name="wheel_front_right_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${wheel_width}" radius="${wheel_radius}"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${wheel_width}" radius="${wheel_radius}"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="${wheel_mass*(3*wheel_radius*wheel_radius+wheel_width*wheel_width)/12}" ixy="0" ixz="0"
+               iyy="${wheel_mass*(3*wheel_radius*wheel_radius+wheel_width*wheel_width)/12}" iyz="0"
+               izz="${wheel_mass*wheel_radius*wheel_radius/2}"/>
+    </inertial>
+  </link>
+
+  <!-- Rear Left Wheel -->
+  <joint name="wheel_rear_left_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="wheel_rear_left_link"/>
+    <origin xyz="${-wheelbase_x} ${wheelbase_y} ${-(body_height/2-floor_clearance)}" rpy="${-pi/2} 0 0"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+  <link name="wheel_rear_left_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${wheel_width}" radius="${wheel_radius}"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${wheel_width}" radius="${wheel_radius}"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="${wheel_mass*(3*wheel_radius*wheel_radius+wheel_width*wheel_width)/12}" ixy="0" ixz="0"
+               iyy="${wheel_mass*(3*wheel_radius*wheel_radius+wheel_width*wheel_width)/12}" iyz="0"
+               izz="${wheel_mass*wheel_radius*wheel_radius/2}"/>
+    </inertial>
+  </link>
+
+  <!-- Rear Right Wheel -->
+  <joint name="wheel_rear_right_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="wheel_rear_right_link"/>
+    <origin xyz="${-wheelbase_x} ${-wheelbase_y} ${-(body_height/2-floor_clearance)}" rpy="${-pi/2} 0 0"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+  <link name="wheel_rear_right_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${wheel_width}" radius="${wheel_radius}"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${wheel_width}" radius="${wheel_radius}"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <mass value="${wheel_mass}"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="${wheel_mass*(3*wheel_radius*wheel_radius+wheel_width*wheel_width)/12}" ixy="0" ixz="0"
+               iyy="${wheel_mass*(3*wheel_radius*wheel_radius+wheel_width*wheel_width)/12}" iyz="0"
+               izz="${wheel_mass*wheel_radius*wheel_radius/2}"/>
+    </inertial>
+  </link>
+
+</robot>
