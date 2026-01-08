@@ -11,7 +11,7 @@
 ## Desired tfs
     * base_link: located between two wheels on bottom plate
     * base_link: Main robot body (your rotation center)
-    * base_footprint: Ground projection of robot center
+    * base_footprint: Ground projection of robot center. Make it visible by including a 1cm sphere
 
 ## Relative Positions and sizes
 
